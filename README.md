@@ -108,7 +108,7 @@ mern-blog/
 curl -X POST http://localhost:4000/register -H "Content-Type: application/json" -d '{"username":"example","password":"password"}'
 ```
 
-#Contribuição
+## Contribuição
 Faça um fork do projeto
 Crie uma branch para sua feature (git checkout -b feature/fooBar)
 Commit suas mudanças (git commit -am 'Add some fooBar')
@@ -117,7 +117,8 @@ Crie um novo Pull Request
 Licença
 Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para mais detalhes.
 
-##Contato
+## Contato
+João Pedro Silva - joaopedrobueno2910@gmail.com
 João Pedro Bueno - joaopedrobueno2910@gmail.com
 
 Link do projeto: https://github.com/jp-bueno/mern-blog
