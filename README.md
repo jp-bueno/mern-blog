@@ -57,7 +57,8 @@ Este é um projeto de blog simples desenvolvido com a stack MERN (MongoDB, Expre
 4. Inicie o servidor backend:
 
     ```sh
-    npm start
+    cd api
+    nodemon index.js
     ```
 
 5. Inicie o cliente React:
