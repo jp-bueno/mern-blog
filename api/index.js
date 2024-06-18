@@ -17,7 +17,7 @@ const secret = "asdfe45we45w345wegw345werjktjwertkj";
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/uploads', express.static(__dirname + '/uploads'))
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 mongoose.connect(
   "mongodb+srv://joaopedrobueno2910:XOlBZrvs7C7Zhk1u@cluster0.meah0bj.mongodb.net/"
@@ -87,20 +87,52 @@ app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
   });
 });
 
-app.get('/post', async (req,res) => {
+app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
+  let newPath = null;
+  if (req.file) {
+    const { originalname, path } = req.file;
+    const parts = originalname.split(".");
+    const ext = parts[parts.length - 1];
+    newPath = path + "." + ext;
+    fs.renameSync(path, newPath);
+  }
+
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) throw err;
+    const { id, title, summary, content } = req.body;
+    const postDoc = await Post.findById(id);
+    const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+    if (!isAuthor) {
+      return res.status(400).json("you are not the author");
+    }
+    // Atualizar propriedades diretamente e salvar
+    postDoc.title = title;
+    postDoc.summary = summary;
+    postDoc.content = content;
+    if (newPath) {
+      postDoc.cover = newPath;
+    }
+
+    await postDoc.save();
+    res.json(postDoc);
+  });
+});
+
+app.get("/post", async (req, res) => {
   res.json(
     await Post.find()
-      .populate('author', ['username'])
-      .sort({createdAt: -1})
+      .populate("author", ["username"])
+      .sort({ createdAt: -1 })
       .limit(20)
   );
 });
 
-app.get('/post/:id', async (req, res) => {
-  const {id} = req.params
-  const postDoc = await Post.findById(id).populate('author', ['username'])
-  res.json(postDoc)
-})
+app.get("/post/:id", async (req, res) => {
+  const { id } = req.params;
+  const postDoc = await Post.findById(id).populate("author", ["username"]);
+  res.json(postDoc);
+});
 
 app.listen(4000);
 //
