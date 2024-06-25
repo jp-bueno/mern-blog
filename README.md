@@ -119,4 +119,5 @@ Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para m
 
 ## Contato
 João Pedro Silva - joaopedrobueno2910@gmail.com
+João Pedro Maceira - jpmaceira2003@gmail.com
 Link do projeto: https://github.com/jp-bueno/mern-blog
